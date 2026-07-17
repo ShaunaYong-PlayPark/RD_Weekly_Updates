@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Weekly R&D Update — 17 July 2026</title>
+<style>
+:root{
+  --bg:#f4f7fb;
+  --surface:#ffffff;
+  --surface-soft:#f8fafc;
+  --ink:#172033;
+  --muted:#667085;
+  --line:#e4e7ec;
+  --line-strong:#d0d5dd;
+  --navy:#16375f;
+  --blue:#1976d2;
+  --blue-soft:#edf5ff;
+  --green:#087a4b;
+  --green-soft:#ecfdf3;
+  --amber:#a95b08;
+  --amber-soft:#fff8e8;
+  --red:#b42318;
+  --red-soft:#fef3f2;
+  --shadow:0 14px 38px rgba(16,24,40,.07);
+  --radius:20px;
+  --max:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#f8fbff 0,#f4f7fb 280px);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.55}
+button{font:inherit;cursor:pointer}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar-inner{max-width:var(--max);margin:auto;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo-mark{width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,#2ec6ed,#1677d2 55%,#0f4f9c);position:relative;box-shadow:0 8px 18px rgba(25,118,210,.22)}
+.logo-mark:after{content:"";position:absolute;inset:8px 9px 8px 10px;border:3px solid rgba(255,255,255,.92);border-left-width:5px;clip-path:polygon(0 0,100% 50%,0 100%)}
+.brand strong{display:block;font-size:14px;letter-spacing:-.01em}.brand span{display:block;font-size:12px;color:var(--muted)}
+.actions{display:flex;gap:8px}.btn{border:1px solid var(--line-strong);background:#fff;color:var(--navy);border-radius:10px;padding:8px 13px;font-weight:750;font-size:13px}.btn:hover{border-color:#98a2b3;background:#f9fafb}.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.shell{max-width:var(--max);margin:auto;padding:24px 22px 64px}
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:38px 40px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,#2ec6ed,var(--blue))}
+.hero:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-90px;top:-110px;background:radial-gradient(circle,rgba(46,198,237,.16),rgba(46,198,237,0) 70%)}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);font-weight:850}
+.hero h1{margin:12px 0 12px;font-size:clamp(38px,5.5vw,62px);line-height:1.02;letter-spacing:-.045em;color:var(--navy)}
+.hero .summary{max-width:920px;margin:0;color:#475467;font-size:17px}
+.meta{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:12px;margin-top:26px}
+.meta-card{padding:15px 16px;border:1px solid var(--line);background:var(--surface-soft);border-radius:13px}.meta-card span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:800}.meta-card strong{display:block;margin-top:5px;font-size:14px;color:var(--ink)}
+.section{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px}
+.section-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:16px}.section-head h2{margin:0;font-size:24px;letter-spacing:-.025em;color:var(--navy)}.section-head p{margin:5px 0 0;color:var(--muted);font-size:14px;max-width:760px}
+.project{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+.project-head{padding:21px 22px;background:linear-gradient(180deg,#fbfdff,#f7faff);display:flex;justify-content:space-between;gap:18px;border-bottom:1px solid var(--line)}
+.project-title{display:flex;gap:14px;align-items:flex-start}.project-no{width:30px;height:30px;border-radius:9px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-size:12px;font-weight:850;flex:0 0 auto}.project-head h3{margin:0;font-size:21px;letter-spacing:-.02em;color:var(--navy)}.project-head p{margin:5px 0 0;color:var(--muted);font-size:14px;max-width:800px}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:850;white-space:nowrap;border:1px solid #fedf89;background:var(--amber-soft);color:var(--amber)}.badge:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.project-body{padding:21px 22px}
+.progress-row{display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:16px;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:var(--surface-soft);margin-bottom:14px}.progress-label strong{display:block;font-size:20px;color:var(--navy)}.progress-label span{display:block;font-size:11px;color:var(--muted)}.progress-track{height:9px;background:#e7edf4;border-radius:999px;overflow:hidden}.progress-track span{display:block;height:100%;width:85%;background:linear-gradient(90deg,#2ec6ed,var(--blue));border-radius:inherit}.progress-note{font-size:12px;color:var(--muted);text-align:right}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.card{border:1px solid var(--line);border-radius:14px;padding:16px 17px;background:#fff}.card h4{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.075em;color:var(--navy)}.card p{margin:0;color:#475467;font-size:14px}.card ul{margin:0;padding-left:19px;color:#344054;font-size:14px}.card li{margin:6px 0}.card li::marker{color:var(--blue)}
+.highlight{background:linear-gradient(180deg,#f5faff,#fff);border-color:#cfe1ff}
+.callout{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border:1px solid #f2d18d;background:#fffaf0;border-radius:13px;margin-top:14px}.callout-icon{width:26px;height:26px;border-radius:8px;background:#fff0c7;color:var(--amber);display:grid;place-items:center;font-weight:900;flex:0 0 auto}.callout strong{display:block;font-size:13px;color:#7a3f06}.callout p{margin:3px 0 0;font-size:13px;color:#7a5a2b}
+.footer{text-align:center;margin-top:20px;color:var(--muted);font-size:12px}
+.presentation{position:fixed;inset:0;z-index:100;background:#f4f7fb;display:none}.presentation.active{display:block}.slide{display:none;height:100%;padding:6vh 7vw 13vh}.slide.active{display:flex;align-items:center;justify-content:center}.slide-card{width:min(1120px,100%);background:#fff;border:1px solid var(--line);border-radius:26px;padding:clamp(30px,5vw,62px);box-shadow:0 22px 58px rgba(16,24,40,.10);position:relative}.slide-card:before{content:"";position:absolute;left:0;top:30px;bottom:30px;width:5px;background:linear-gradient(180deg,#2ec6ed,var(--blue));border-radius:0 6px 6px 0}.slide .label{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);font-weight:850}.slide h2{font-size:clamp(38px,5.2vw,66px);line-height:1.05;letter-spacing:-.045em;color:var(--navy);margin:14px 0 18px}.slide p,.slide li{font-size:clamp(17px,1.75vw,23px);color:#475467}.slide ul{padding-left:25px;margin:0}.slide li{margin:10px 0}.slide .badge{margin-top:4px}.slide .mini{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--blue-soft);color:var(--blue);font-size:12px;font-weight:850}
+.controls{position:absolute;left:0;right:0;bottom:0;padding:13px 20px;background:rgba(255,255,255,.98);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.controls button{border:1px solid var(--line-strong);background:#fff;color:var(--navy);border-radius:9px;padding:8px 13px;font-weight:750}.count{font-size:13px;color:var(--muted)}
+@media(max-width:900px){.meta,.grid{grid-template-columns:1fr}.project-head{display:block}.project-head>.badge{margin:13px 0 0 44px}.progress-row{grid-template-columns:1fr}.progress-note{text-align:left}.topbar-inner{align-items:flex-start}}
+@media(max-width:640px){.shell{padding:14px}.topbar-inner{padding:10px 14px}.brand span{display:none}.hero{padding:27px 22px}.section{padding:18px}.actions .btn:first-child{display:none}.slide{padding:5vh 4vw 13vh}.slide-card{padding:28px 24px}.controls{padding:10px 12px}}
+@media print{.topbar,.presentation{display:none!important}.hero,.section{box-shadow:none}.shell{max-width:none}.project,.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><div class="logo-mark" aria-hidden="true"></div><div><strong>Weekly R&D Update</strong><span>Prepared for Daryl</span></div></div>
+    <div class="actions"><button class="btn" onclick="window.print()">Print / PDF</button><button class="btn primary" id="presentBtn">Present</button></div>
+  </div>
+</header>
+
+<main class="shell">
+  <section class="hero">
+    <div class="eyebrow">Weekly report</div>
+    <h1>17 July 2026</h1>
+    <p class="summary">Focused on advancing the IBD SG Market Scan Automation proof of concept, documenting its current state, and clarifying the commercial access required to keep the workflow automated.</p>
+    <div class="meta">
+      <div class="meta-card"><span>Reporting period</span><strong>10–17 July 2026</strong></div>
+      <div class="meta-card"><span>Primary workstream</span><strong>IBD SG Market Scan Automation</strong></div>
+      <div class="meta-card"><span>Projects this week</span><strong>1 active project</strong></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><h2>Project update</h2><p>All related tasks are grouped under the relevant project for clear ownership and progress tracking.</p></div>
+    </div>
+
+    <article class="project">
+      <div class="project-head">
+        <div class="project-title">
+          <span class="project-no">01</span>
+          <div>
+            <h3>IBD SG Market Scan Automation</h3>
+            <p>Automate repetitive market-monitoring and reporting work to reduce manual effort and free up time for higher-value analysis.</p>
+          </div>
+        </div>
+        <span class="badge">Temporarily paused</span>
+      </div>
+
+      <div class="project-body">
+        <div class="progress-row">
+          <div class="progress-label"><strong>85%</strong><span>Estimated completion</span></div>
+          <div class="progress-track" aria-label="85 percent complete"><span></span></div>
+          <div class="progress-note">Core proof of concept functioning locally</div>
+        </div>
+
+        <div class="grid">
+          <section class="card highlight">
+            <h4>Work completed this week</h4>
+            <ul>
+              <li>Consolidated the current workflow, implementation status, and remaining work into a project outline brief.</li>
+              <li>Shared the project outline with Daryl on 16 July 2026.</li>
+              <li>Refined the market-discovery, enrichment, classification, and reporting workflow.</li>
+              <li>Continued learning Codex, GitHub, and HTML deployment concepts required to support the build.</li>
+              <li>Began clarifying Sensor Tower API and MCP package pricing for continued automation.</li>
+            </ul>
+          </section>
+
+          <section class="card">
+            <h4>Current outcome</h4>
+            <p>The proof of concept now has a defined end-to-end workflow for identifying, enriching, classifying, and presenting commercially relevant Singapore mobile game launches. The HTML market brief currently functions locally.</p>
+          </section>
+
+          <section class="card">
+            <h4>Current blockers and dependencies</h4>
+            <ul>
+              <li>Limited coding background creates a strong dependency on Codex for implementation and troubleshooting.</li>
+              <li>The Codex weekly usage limit was reached on Thursday, temporarily pausing further development.</li>
+              <li>Sensor Tower API and MCP package pricing remains under discussion.</li>
+              <li>Ongoing automation depends on securing the appropriate Sensor Tower access package.</li>
+            </ul>
+          </section>
+
+          <section class="card">
+            <h4>Next actions</h4>
+            <ul>
+              <li>Resume development after the Codex allowance resets.</li>
+              <li>Deploy the HTML dashboard as a shared website.</li>
+              <li>Complete end-to-end workflow testing.</li>
+              <li>Confirm Sensor Tower API and MCP package pricing.</li>
+              <li>Finalise the proof of concept for internal demonstration.</li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="callout">
+          <div class="callout-icon">i</div>
+          <div><strong>Status note</strong><p>The pause is capacity-related rather than a technical failure. Development can resume once the Codex usage allowance resets.</p></div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <div class="footer">Internal working report · Weekly R&D Update</div>
+</main>
+
+<div class="presentation" id="presentation" aria-hidden="true">
+  <div id="slides">
+    <section class="slide active"><div class="slide-card"><span class="label">Weekly R&D Update · 17 July 2026</span><h2>IBD SG Market Scan Automation</h2><p>Focused on advancing the proof of concept, documenting its current state, and clarifying the commercial access required for continued automation.</p></div></section>
+    <section class="slide"><div class="slide-card"><span class="mini">Project 1 of 1</span><h2>IBD SG Market Scan Automation</h2><span class="badge">Temporarily paused</span><p>Automate repetitive market-monitoring and reporting work to reduce manual effort and free up time for higher-value analysis.</p></div></section>
+    <section class="slide"><div class="slide-card"><span class="label">Progress this week</span><h2>What was completed</h2><ul><li>Project outline finalised and shared with Daryl.</li><li>Workflow logic and implementation state consolidated.</li><li>Sensor Tower API and MCP pricing enquiry initiated.</li><li>Codex, GitHub, and deployment knowledge developed in support of the build.</li></ul></div></section>
+    <section class="slide"><div class="slide-card"><span class="label">Current position</span><h2>85% complete</h2><p>The core proof of concept is functioning locally, with a defined workflow for identifying, enriching, classifying, and presenting relevant Singapore mobile game launches.</p></div></section>
+    <section class="slide"><div class="slide-card"><span class="label">Dependencies</span><h2>What is holding back completion</h2><ul><li>Strong reliance on Codex due to limited coding background.</li><li>Codex weekly usage limit reached on Thursday.</li><li>Sensor Tower API and MCP package pricing still being clarified.</li><li>Shared website deployment and final testing remain outstanding.</li></ul></div></section>
+    <section class="slide"><div class="slide-card"><span class="label">Next steps</span><h2>Remaining work</h2><ul><li>Resume development after the Codex allowance resets.</li><li>Deploy the HTML dashboard as a shared website.</li><li>Complete end-to-end testing.</li><li>Confirm the Sensor Tower package required for continued automation.</li></ul></div></section>
+  </div>
+  <div class="controls"><button id="exitBtn">Exit</button><div class="count" id="count">1 / 6</div><div><button id="prevBtn">Previous</button> <button id="nextBtn">Next</button></div></div>
+</div>
+
+<script>
+const presentation=document.getElementById('presentation');
+const slides=[...document.querySelectorAll('.slide')];
+const count=document.getElementById('count');
+let index=0;
+function showSlide(i){index=Math.max(0,Math.min(i,slides.length-1));slides.forEach((s,n)=>s.classList.toggle('active',n===index));count.textContent=`${index+1} / ${slides.length}`}
+function openPresentation(){presentation.classList.add('active');presentation.setAttribute('aria-hidden','false');showSlide(0)}
+function closePresentation(){presentation.classList.remove('active');presentation.setAttribute('aria-hidden','true')}
+document.getElementById('presentBtn').onclick=openPresentation;
+document.getElementById('exitBtn').onclick=closePresentation;
+document.getElementById('prevBtn').onclick=()=>showSlide(index-1);
+document.getElementById('nextBtn').onclick=()=>showSlide(index+1);
+document.addEventListener('keydown',e=>{if(!presentation.classList.contains('active'))return;if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();showSlide(index+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();showSlide(index-1)}if(e.key==='Escape')closePresentation()});
+</script>
+</body>
+</html>
